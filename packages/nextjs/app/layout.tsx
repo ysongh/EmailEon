@@ -12,7 +12,7 @@ const imageUrl = `${baseUrl}/thumbnail.jpg`;
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Scaffold-Nillion App",
+    default: "EmailEon",
     template: "%s | Scaffold-Nillion",
   },
   description: "Built with 🏗 Scaffold-Nillion",
