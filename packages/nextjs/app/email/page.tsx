@@ -11,6 +11,7 @@ import { Address } from "~~/components/scaffold-eth";
 import { getUserKeyFromSnap } from "~~/utils/nillion/getUserKeyFromSnap";
 import { retrieveSecretBlob } from "~~/utils/nillion/retrieveSecretBlob";
 import { storeSecretsBlob } from "~~/utils/nillion/storeSecretsBlob";
+import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
@@ -48,6 +49,16 @@ const Home: NextPage = () => {
       });
     }
   }, [userKey]);
+
+  const { writeAsync: addEmail} = useScaffoldContractWrite({
+    contractName: "EmailEon",
+    functionName: "addEmail",
+    args: [storeId as string],
+    blockConfirmations: 1,
+    onBlockConfirmation: txnReceipt => {
+      console.log("Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
 
   async function handleSecretFormSubmit(
     secretName: string,
@@ -177,6 +188,9 @@ const Home: NextPage = () => {
                           />
                           <button className="btn btn-sm btn-primary mt-4" onClick={resetForm}>
                             Reset
+                          </button>
+                          <button className="btn btn-sm btn-primary mt-4" onClick={() => addEmail()}>
+                            Add
                           </button>
                         </>
                       ) : (
