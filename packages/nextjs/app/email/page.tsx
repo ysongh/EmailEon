@@ -30,7 +30,6 @@ const Home: NextPage = () => {
     setConnectedToSnap(snapResponse?.connectedToSnap || false);
   }
 
-
   useEffect(() => {
     if (userKey) {
       const getNillionClientLibrary = async () => {
@@ -53,7 +52,7 @@ const Home: NextPage = () => {
   const { writeAsync: addEmail} = useScaffoldContractWrite({
     contractName: "EmailEon",
     functionName: "addEmail",
-    args: [storeId as string],
+    args: [storeId as string, storedSecretName],
     blockConfirmations: 1,
     onBlockConfirmation: txnReceipt => {
       console.log("Transaction blockHash", txnReceipt.blockHash);
@@ -82,6 +81,7 @@ const Home: NextPage = () => {
   }
 
   async function handleRetrieveSecretBlob(store_id: string, secret_name: string) {
+    console.log(nillionClient, store_id, secret_name);
     await retrieveSecretBlob(nillionClient, store_id, secret_name).then(setRetrievedValue);
   }
 
