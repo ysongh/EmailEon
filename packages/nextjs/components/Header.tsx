@@ -20,13 +20,17 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/",
   },
   {
+    label: "📩 Email",
+    href: "/email",
+  },
+  {
     label: "🖥️ Nillion Blind Computation Demo",
     href: "/nillion-compute",
   },
-  {
-    label: "🎯 Nillion Hello World",
-    href: "/nillion-hello-world",
-  },
+  // {
+  //   label: "🎯 Nillion Hello World",
+  //   href: "/nillion-hello-world",
+  // },
   {
     label: "✅ Nillion Hello World Demo",
     href: "/nillion-hello-world-complete",
