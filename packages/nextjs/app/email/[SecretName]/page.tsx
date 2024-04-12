@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { CopyString } from "~~/components/nillion/CopyString";
 import { NillionOnboarding } from "~~/components/nillion/NillionOnboarding";
@@ -13,14 +12,13 @@ import { retrieveSecretBlob } from "~~/utils/nillion/retrieveSecretBlob";
 import { storeSecretsBlob } from "~~/utils/nillion/storeSecretsBlob";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
-const Home: NextPage = () => {
+const Email = ({ params }: { params: { SecretName: string } }) => {
   const { address: connectedAddress } = useAccount();
   const [connectedToSnap, setConnectedToSnap] = useState<boolean>(false);
   const [userKey, setUserKey] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [nillion, setNillion] = useState<any>(null);
   const [nillionClient, setNillionClient] = useState<any>(null);
-  const [storedSecretName, setStoredSecretName] = useState<string>("my_blob");
   const [storeId, setStoreId] = useState<string | null>(null);
   const [retrievedValue, setRetrievedValue] = useState<string | null>(null);
 
@@ -52,7 +50,7 @@ const Home: NextPage = () => {
   const { writeAsync: addEmail} = useScaffoldContractWrite({
     contractName: "EmailEon",
     functionName: "addEmail",
-    args: [storeId as string, storedSecretName],
+    args: [storeId as string, params.SecretName],
     blockConfirmations: 1,
     onBlockConfirmation: txnReceipt => {
       console.log("Transaction blockHash", txnReceipt.blockHash);
@@ -75,7 +73,6 @@ const Home: NextPage = () => {
       permissionedUserIdForDeleteSecret ? [permissionedUserIdForDeleteSecret] : [],
     ).then((store_id: string) => {
       console.log("Secret stored at store_id:", store_id);
-      setStoredSecretName(secretName);
       setStoreId(store_id);
     });
   }
@@ -184,7 +181,7 @@ const Home: NextPage = () => {
                             secretType="SecretBlob"
                             userKey={userKey}
                             storeId={storeId}
-                            secretName={storedSecretName}
+                            secretName={params.SecretName}
                           />
                           <button className="btn btn-sm btn-primary mt-4" onClick={resetForm}>
                             Reset
@@ -195,7 +192,7 @@ const Home: NextPage = () => {
                         </>
                       ) : (
                         <SecretForm
-                          secretName={storedSecretName}
+                          secretName={params.SecretName}
                           onSubmit={handleSecretFormSubmit}
                           secretType="text"
                           isLoading={false}
@@ -210,13 +207,13 @@ const Home: NextPage = () => {
                 <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center w-full rounded-3xl my-2 justify-between mx-5">
                   <h1 className="text-xl">Retrieve and decode SecretBlob from Nillion</h1>
                   <div className="flex flex-row w-full justify-between items-center my-10 mx-10">
-                    <div className="flex-1 px-2" key={storedSecretName}>
+                    <div className="flex-1 px-2" key={params.SecretName}>
                       <button
                         className="btn btn-sm btn-primary mt-4"
-                        onClick={() => handleRetrieveSecretBlob(storeId || "", storedSecretName)}
+                        onClick={() => handleRetrieveSecretBlob(storeId || "", params.SecretName)}
                         disabled={!storeId}
                       >
-                        Retrieve and decode {storedSecretName}
+                        Retrieve and decode {params.SecretName}
                       </button>
 
                       {retrievedValue && <p>✅ Retrieved value: {retrievedValue}</p>}
@@ -232,4 +229,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Email;
