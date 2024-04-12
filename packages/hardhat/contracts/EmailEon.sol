@@ -4,18 +4,18 @@ pragma solidity >=0.8.0 <0.9.0;
 contract EmailEon {
   constructor() {}
 
-  Email[] emails;
+  mapping(address => Email[]) public emails;
 
   struct Email {
     string storeId;
     string secretName;
   }
 
-  function getEmails() public view returns (Email[] memory){
-    return emails;
+  function getEmails(address _owner) public view returns (Email[] memory){
+    return emails[_owner];
   }
 
   function addEmail(string memory _storeId, string memory _secretName) public {
-    emails.push(Email(_storeId, _secretName));
+    emails[msg.sender].push(Email(_storeId, _secretName));
   }
 }

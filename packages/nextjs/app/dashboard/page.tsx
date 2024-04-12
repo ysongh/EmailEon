@@ -3,9 +3,16 @@
 import type { NextPage } from "next";
 import Link from 'next/link';
 import { useAccount } from "wagmi";
+import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 const Dashboard: NextPage = () => {
   const { address } = useAccount();
+
+  const { data: emails } = useScaffoldContractRead({
+    contractName: "EmailEon",
+    functionName: "getEmails",
+    args: [address],
+  });
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -19,10 +26,10 @@ const Dashboard: NextPage = () => {
       </div>
       <div className="flex-1">
         <header className="bg-white shadow">
-          <div className="container mx-auto py-4 px-4">Header</div>
+          <div className="container mx-auto py-4 px-4">Dashboard</div>
         </header>
         <main className="container mx-auto py-6 px-4">
-          Main Content
+          <p>{emails?.length} subscribers</p>
         </main>
       </div>
     </div>
