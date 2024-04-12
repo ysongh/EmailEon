@@ -20,8 +20,8 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/",
   },
   {
-    label: "📩 Email",
-    href: "/email",
+    label: "📩 Dashboard",
+    href: "/dashboard",
   },
   {
     label: "🖥️ Nillion Blind Computation Demo",
