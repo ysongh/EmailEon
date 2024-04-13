@@ -49,9 +49,12 @@ const Dashboard: NextPage = () => {
     <div className="flex h-screen bg-gray-100">
       <div className="w-64 bg-gray-800 h-full text-white p-4">
         <div className="mb-4">Dashboard</div>
-        <ul>
+        <ul className="flex flex-col">
+          <Link href={`/email/send`} className="text-gray-300 hover:text-white mb-3">
+            Send Email
+          </Link>
           <Link href={`/email/${address}`} className="text-gray-300 hover:text-white">
-            Email
+            Collect Email
           </Link>
         </ul>
       </div>

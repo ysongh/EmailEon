@@ -7,7 +7,7 @@ const GET = async() => {
 
   const { data, error } = await mailchain.sendMail({
       from: `emaileon@mailchain.com`, // sender address
-      to: [``], // list of recipients (blockchain or mailchain addresses)
+      to: [`songweb@mailchain.com`], // list of recipients (blockchain or mailchain addresses)
       subject: 'My first message', // subject line
       content: {
           text: 'Hello Mailchain 👋', // plain text body
