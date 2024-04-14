@@ -6,8 +6,19 @@ const EmailForm = () => {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmitEmail = (event: any) => {
+  const handleSubmitEmail = async (event: any) => {
     event.preventDefault();
+    const response = await fetch('/api/email/send', {
+      method: 'POST',
+      body: JSON.stringify({ 
+        subject,
+        message,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    console.log(response);
     console.log('Subject:', subject);
     console.log('Message:', message);
     setSubject('');

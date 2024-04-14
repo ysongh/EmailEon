@@ -1,6 +1,7 @@
 import { Mailchain } from '@mailchain/sdk';
 
-const GET = async() => {
+const POST = async(req: Request) => {
+	const {subject, message } = await req.json();
   const secretRecoveryPhrase = process.env.SECRET_RECOVERY_PHRASE!; // 25 word mnemonicPhrase
 
   const mailchain = Mailchain.fromSecretRecoveryPhrase(secretRecoveryPhrase);
@@ -8,10 +9,10 @@ const GET = async() => {
   const { data, error } = await mailchain.sendMail({
       from: `emaileon@mailchain.com`, // sender address
       to: [`songweb@mailchain.com`], // list of recipients (blockchain or mailchain addresses)
-      subject: 'My first message', // subject line
+      subject: subject, // subject line
       content: {
-          text: 'Hello Mailchain 👋', // plain text body
-          html: '<p>Hello Mailchain 👋</p>', // html body
+          text: message, // plain text body
+          html: `<p>${message}</p>`, // html body
       },
   });
   if (error) {
@@ -24,4 +25,4 @@ const GET = async() => {
   return Response.json({ data: data });
   }
 
-export { GET };
+export { POST };
