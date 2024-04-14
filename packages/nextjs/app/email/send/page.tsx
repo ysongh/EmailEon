@@ -1,16 +1,62 @@
 "use client";
 
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useAccount } from "wagmi";
+import { useScaffoldContractRead } from '~~/hooks/scaffold-eth';
+import { getUserKeyFromSnap } from "~~/utils/nillion/getUserKeyFromSnap";
+import { retrieveSecretBlob } from '~~/utils/nillion/retrieveSecretBlob';
 
 const EmailForm = () => {
+  const { address: connectedAddress } = useAccount();
+
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  const [userKey, setUserKey] = useState<string | null>(null);
+  const [connectedToSnap, setConnectedToSnap] = useState<boolean>(false);
+  const [nillion, setNillion] = useState<any>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [nillionClient, setNillionClient] = useState<any>(null);
+
+  useEffect(() => {
+    if (userKey) {
+      const getNillionClientLibrary = async () => {
+        const nillionClientUtil = await import("~~/utils/nillion/nillionClient");
+        const libraries = await nillionClientUtil.getNillionClient(userKey);
+
+        setNillion(libraries.nillion);
+        setNillionClient(libraries.nillionClient);
+
+        return libraries.nillionClient;
+      };
+
+      getNillionClientLibrary().then(nillionClient => {
+        const user_id = nillionClient.user_id;
+        setUserId(user_id);
+      });
+    }
+  }, [userKey]);
+
+  async function handleConnectToSnap() {
+    const snapResponse = await getUserKeyFromSnap();
+    setUserKey(snapResponse?.user_key || null);
+    setConnectedToSnap(snapResponse?.connectedToSnap || false);
+  }
+
+  const { data: emails } = useScaffoldContractRead({
+    contractName: "EmailEon",
+    functionName: "getEmails",
+    args: [connectedAddress],
+  });
 
   const handleSubmitEmail = async (event: any) => {
     event.preventDefault();
+
+    const newEmail = await retrieveSecretBlob(nillionClient, emails[0].storeId, emails[0].secretName);
+
     const response = await fetch('/api/email/send', {
       method: 'POST',
       body: JSON.stringify({ 
+        toEmail: newEmail,
         subject,
         message,
       }),
@@ -27,6 +73,11 @@ const EmailForm = () => {
 
   return (
     <div className="max-w-md mx-auto mt-8 p-4 bg-white rounded shadow w-[500px]">
+      {connectedAddress && !connectedToSnap && (
+        <button className="btn btn-sm btn-primary mt-4" onClick={handleConnectToSnap}>
+          Connect to Snap with your Nillion User Key
+        </button>
+      )}
       <h2 className="text-lg font-semibold mb-4">Send Email</h2>
       <form onSubmit={handleSubmitEmail}>
         <div className="mb-4">

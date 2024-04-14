@@ -1,14 +1,14 @@
 import { Mailchain } from '@mailchain/sdk';
 
 const POST = async(req: Request) => {
-	const { subject, message } = await req.json();
+	const { subject, message, toEmail } = await req.json();
   const secretRecoveryPhrase = process.env.SECRET_RECOVERY_PHRASE!; // 25 word mnemonicPhrase
 
   const mailchain = Mailchain.fromSecretRecoveryPhrase(secretRecoveryPhrase);
 
   const { data, error } = await mailchain.sendMail({
       from: `emaileon@mailchain.com`, // sender address
-      to: [`songweb@mailchain.com`], // list of recipients (blockchain or mailchain addresses)
+      to: [toEmail], // list of recipients (blockchain or mailchain addresses)
       subject: subject, // subject line
       content: {
           text: message, // plain text body
