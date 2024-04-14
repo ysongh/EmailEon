@@ -1,7 +1,7 @@
 import { Mailchain } from '@mailchain/sdk';
 
 const POST = async(req: Request) => {
-	const {subject, message } = await req.json();
+	const { subject, message } = await req.json();
   const secretRecoveryPhrase = process.env.SECRET_RECOVERY_PHRASE!; // 25 word mnemonicPhrase
 
   const mailchain = Mailchain.fromSecretRecoveryPhrase(secretRecoveryPhrase);
