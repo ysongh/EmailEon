@@ -41,6 +41,12 @@ const Dashboard: NextPage = () => {
     args: [address],
   });
 
+  const { data: hasProfile } = useScaffoldContractRead({
+    contractName: "EmailEon",
+    functionName: "getHasProfile",
+    args: [address],
+  });
+
   async function handleRetrieveSecretBlob(store_id: string, secret_name: string) {
     await retrieveSecretBlob(nillionClient, store_id, secret_name).then(setRetrievedValue);
   }
@@ -53,8 +59,11 @@ const Dashboard: NextPage = () => {
           <Link href={`/email/send`} className="text-gray-300 hover:text-white mb-3">
             Send Email
           </Link>
-          <Link href={`/email/${address}`} className="text-gray-300 hover:text-white">
+          <Link href={`/email/${address}`} className="text-gray-300 hover:text-white mb-3">
             Collect Email
+          </Link>
+          <Link href="/profile" className="text-gray-300 hover:text-white">
+            Profile
           </Link>
         </ul>
       </div>
@@ -63,10 +72,22 @@ const Dashboard: NextPage = () => {
           <div className="container mx-auto py-4 px-4">Dashboard</div>
         </header>
         <main className="container mx-auto py-6 px-4">
-          <p>{emails?.length} subscribers</p>
-          {emails?.map((e, index) => (
-            <p key={index}>{e.secretName} {e.storeId}</p>
-          ))}
+          {hasProfile ? (
+            <div>
+              <p>{emails?.length} subscribers</p>
+              {emails?.map((e, index) => (
+                <p key={index}>{e.secretName} {e.storeId}</p>
+              ))}
+            </div>
+          ) : (
+            <div>
+              <h2 className="mb-5">You need a profile</h2>
+              <Link href="/profile" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Creat Profile Now
+              </Link>
+            </div>
+           
+          )}
         </main>
       </div>
     </div>
