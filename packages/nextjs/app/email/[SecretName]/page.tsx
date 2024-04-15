@@ -50,7 +50,7 @@ const Email = ({ params }: { params: { SecretName: string } }) => {
   const { writeAsync: addEmail} = useScaffoldContractWrite({
     contractName: "EmailEon",
     functionName: "addEmail",
-    args: [storeId as string, params.SecretName],
+    args: [params.SecretName, storeId as string, params.SecretName],
     blockConfirmations: 1,
     onBlockConfirmation: txnReceipt => {
       console.log("Transaction blockHash", txnReceipt.blockHash);

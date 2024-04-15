@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     EmailEon: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
       abi: [
         {
           inputs: [],
@@ -16,6 +16,11 @@ const deployedContracts = {
         },
         {
           inputs: [
+            {
+              internalType: "address",
+              name: "_owner",
+              type: "address",
+            },
             {
               internalType: "string",
               name: "_storeId",
@@ -159,6 +164,25 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "address",
+              name: "_owner",
+              type: "address",
+            },
+          ],
+          name: "getSubscribeTo",
+          outputs: [
+            {
+              internalType: "string[]",
+              name: "",
+              type: "string[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
               name: "",
               type: "address",
             },
@@ -192,6 +216,30 @@ const deployedContracts = {
             {
               internalType: "string",
               name: "email",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "subscribeTo",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
               type: "string",
             },
           ],

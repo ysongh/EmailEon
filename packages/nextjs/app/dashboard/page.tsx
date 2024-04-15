@@ -41,6 +41,12 @@ const Dashboard: NextPage = () => {
     args: [address],
   });
 
+  const { data: subscribeTo } = useScaffoldContractRead({
+    contractName: "EmailEon",
+    functionName: "getSubscribeTo",
+    args: [address],
+  });
+
   const { data: hasProfile } = useScaffoldContractRead({
     contractName: "EmailEon",
     functionName: "getHasProfile",
@@ -77,6 +83,10 @@ const Dashboard: NextPage = () => {
               <p>{emails?.length} subscribers</p>
               {emails?.map((e, index) => (
                 <p key={index}>{e.secretName} {e.storeId}</p>
+              ))}
+              <h2>Subscriptions</h2>
+              {subscribeTo?.map((s, index) => (
+                <p key={index}>{s}</p>
               ))}
             </div>
           ) : (
