@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { useScaffoldContractRead } from '~~/hooks/scaffold-eth';
 import { getUserKeyFromSnap } from "~~/utils/nillion/getUserKeyFromSnap";
 import { retrieveSecretBlob } from '~~/utils/nillion/retrieveSecretBlob';
+import Spinner from '~~/components/Spinner';
 
 const EmailForm = () => {
   const { address: connectedAddress } = useAccount();
@@ -16,6 +17,7 @@ const EmailForm = () => {
   const [nillion, setNillion] = useState<any>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [nillionClient, setNillionClient] = useState<any>(null);
+  const [loading, setLoading] = useState<Boolean | null>(false);
 
   useEffect(() => {
     if (userKey) {
@@ -49,26 +51,32 @@ const EmailForm = () => {
   });
 
   const handleSubmitEmail = async (event: any) => {
-    event.preventDefault();
+    try{
+      event.preventDefault();
+      setLoading(true);
 
-    const newEmail = await retrieveSecretBlob(nillionClient, emails[0].storeId, emails[0].secretName);
+      const newEmail = await retrieveSecretBlob(nillionClient, emails[0].storeId, emails[0].secretName);
 
-    const response = await fetch('/api/email/send', {
-      method: 'POST',
-      body: JSON.stringify({ 
-        toEmail: newEmail,
-        subject,
-        message,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    console.log(response);
-    console.log('Subject:', subject);
-    console.log('Message:', message);
-    setSubject('');
-    setMessage('');
+      const response = await fetch('/api/email/send', {
+        method: 'POST',
+        body: JSON.stringify({ 
+          toEmail: newEmail,
+          subject,
+          message,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      console.log(response);
+      console.log('Subject:', subject);
+      console.log('Message:', message);
+      setSubject('');
+      setMessage('');
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -88,7 +96,10 @@ const EmailForm = () => {
           <label htmlFor="message" className="block text-sm font-medium text-gray-700">Message:</label>
           <textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} required className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></textarea>
         </div>
-        <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Send Email</button>
+        {!loading
+          ? <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Send Email</button>
+          : <Spinner />
+        }
       </form>
     </div>
   );
