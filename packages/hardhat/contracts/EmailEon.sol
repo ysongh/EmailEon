@@ -17,6 +17,7 @@ contract EmailEon {
   struct Profile {
     address owner;
     string email;
+    string userID;
   }
 
   function getEmails(address _owner) public view returns (Email[] memory){
@@ -40,8 +41,8 @@ contract EmailEon {
     subscribeTo[msg.sender].push(profiles[_owner].email);
   }
 
-  function createProfile(string memory _email) public {
-    profiles[msg.sender] = Profile(msg.sender, _email);
+  function createProfile(string memory _email, string memory _userID) public {
+    profiles[msg.sender] = Profile(msg.sender, _email, _userID);
     hasProfile[msg.sender] = true;
   }
 }

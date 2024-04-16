@@ -46,7 +46,7 @@ const Profile: NextPage = () => {
   const { writeAsync: createProfile} = useScaffoldContractWrite({
     contractName: "EmailEon",
     functionName: "createProfile",
-    args: [email],
+    args: [email, userId || ""],
     blockConfirmations: 1,
     onBlockConfirmation: txnReceipt => {
       console.log("Transaction blockHash", txnReceipt.blockHash);
