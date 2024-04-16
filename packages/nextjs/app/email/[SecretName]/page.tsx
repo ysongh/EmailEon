@@ -10,7 +10,7 @@ import { Address } from "~~/components/scaffold-eth";
 import { getUserKeyFromSnap } from "~~/utils/nillion/getUserKeyFromSnap";
 import { retrieveSecretBlob } from "~~/utils/nillion/retrieveSecretBlob";
 import { storeSecretsBlob } from "~~/utils/nillion/storeSecretsBlob";
-import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const Email = ({ params }: { params: { SecretName: string } }) => {
   const { address: connectedAddress } = useAccount();
@@ -46,6 +46,12 @@ const Email = ({ params }: { params: { SecretName: string } }) => {
       });
     }
   }, [userKey]);
+
+  const { data: profile } = useScaffoldContractRead({
+    contractName: "EmailEon",
+    functionName: "getProfile",
+    args: [connectedAddress],
+  });
 
   const { writeAsync: addEmail} = useScaffoldContractWrite({
     contractName: "EmailEon",
@@ -110,7 +116,7 @@ const Email = ({ params }: { params: { SecretName: string } }) => {
         <div className="px-5 flex flex-col">
           <h1 className="text-xl">
             <span className="block text-4xl font-bold text-center">
-              Store and Retrieve Email
+              Subscribe to {profile?.email}
             </span>
 
             {!connectedAddress && <p>Connect your MetaMask Flask wallet</p>}
