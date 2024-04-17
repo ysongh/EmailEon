@@ -37,7 +37,7 @@ contract EmailEon {
   }
 
   function addEmail(address _owner, string memory _storeId, string memory _secretName) public {
-    emails[msg.sender].push(Email(_storeId, _secretName));
+    emails[_owner].push(Email(_storeId, _secretName));
     subscribeTo[msg.sender].push(profiles[_owner].email);
   }
 
