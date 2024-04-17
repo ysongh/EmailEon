@@ -78,15 +78,17 @@ const Dashboard: NextPage = () => {
           <div className="container mx-auto py-4 px-4">Dashboard</div>
         </header>
         <main className="container mx-auto py-6 px-4">
+          <h2 className="text-2xl">Subscriptions</h2>
+          {subscribeTo?.map((s, index) => (
+            <p key={index}>{s}</p>
+          ))}
+          {!subscribeTo?.length && <p className="text-red-500">No Subscription Yet...</p>}
+          <hr className="mb-4"></hr>
           {hasProfile ? (
             <div>
               <p>{emails?.length} subscribers</p>
               {emails?.map((e, index) => (
                 <p key={index}>{e.secretName} {e.storeId}</p>
-              ))}
-              <h2>Subscriptions</h2>
-              {subscribeTo?.map((s, index) => (
-                <p key={index}>{s}</p>
               ))}
             </div>
           ) : (
