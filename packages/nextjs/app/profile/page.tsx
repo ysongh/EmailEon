@@ -6,6 +6,7 @@ import { useAccount } from "wagmi";
 import { CopyString } from "~~/components/nillion/CopyString";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { getUserKeyFromSnap } from "~~/utils/nillion/getUserKeyFromSnap";
+import TextInput from "~~/components/common/TextInput";
 
 const Profile: NextPage = () => {
   const { address: connectedAddress } = useAccount();
@@ -95,12 +96,10 @@ const Profile: NextPage = () => {
           <div className="mt-5 mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email:</label>
             {isEditing ? (
-              <input 
-                type="email" 
-                id="email" 
+              <TextInput
                 value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+                setValue={setEmail}
+                isDisabled={false}
               />
             ) : (
               <p id="email" className="mt-1 text-lg font-semibold text-gray-900">{profile?.email}</p>

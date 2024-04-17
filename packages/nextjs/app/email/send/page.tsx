@@ -6,6 +6,7 @@ import { useScaffoldContractRead } from '~~/hooks/scaffold-eth';
 import { getUserKeyFromSnap } from "~~/utils/nillion/getUserKeyFromSnap";
 import { retrieveSecretBlob } from '~~/utils/nillion/retrieveSecretBlob';
 import Spinner from '~~/components/Spinner';
+import TextInput from '~~/components/common/TextInput';
 
 const EmailForm = () => {
   const { address: connectedAddress } = useAccount();
@@ -90,11 +91,21 @@ const EmailForm = () => {
       <form onSubmit={handleSubmitEmail}>
         <div className="mb-4">
           <label htmlFor="subject" className="block text-sm font-medium text-gray-700">Subject:</label>
-          <input type="text" id="subject" value={subject} onChange={(e) => setSubject(e.target.value)} required className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
+          <TextInput
+            value={subject}
+            setValue={setSubject}
+            isDisabled={false}
+          />
         </div>
         <div className="mb-4">
           <label htmlFor="message" className="block text-sm font-medium text-gray-700">Message:</label>
-          <textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} required className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></textarea>
+          <textarea
+            id="message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          ></textarea>
         </div>
         {!loading
           ? <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Send Email</button>
