@@ -7,7 +7,7 @@ contract EmailEon {
   mapping(address => Email[]) public emails;
   mapping(address => Profile) public profiles;
   mapping(address => bool) public hasProfile;
-  mapping(address => string[]) public subscribeTo;
+  mapping(address => Subscription[]) public subscribeTo;
 
   struct Email {
     string storeId;
@@ -18,6 +18,11 @@ contract EmailEon {
     address owner;
     string email;
     string userID;
+  }
+
+  struct Subscription {
+    string email;
+    string storeId;
   }
 
   function getEmails(address _owner) public view returns (Email[] memory){
@@ -32,13 +37,13 @@ contract EmailEon {
     return profiles[_owner];
   }
 
-  function getSubscribeTo(address _owner) public view returns (string[] memory){
+  function getSubscribeTo(address _owner) public view returns (Subscription[] memory){
     return subscribeTo[_owner];
   }
 
   function addEmail(address _owner, string memory _storeId, string memory _secretName) public {
     emails[_owner].push(Email(_storeId, _secretName));
-    subscribeTo[msg.sender].push(profiles[_owner].email);
+    subscribeTo[msg.sender].push(Subscription(profiles[_owner].email, _storeId));
   }
 
   function createProfile(string memory _email, string memory _userID) public {

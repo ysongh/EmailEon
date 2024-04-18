@@ -80,7 +80,7 @@ const Dashboard: NextPage = () => {
         <main className="container mx-auto py-6 px-4">
           <h2 className="text-2xl">Subscriptions</h2>
           {subscribeTo?.map((s, index) => (
-            <p key={index}>{s}</p>
+            <p key={index}>{s.email} {s.storeId}</p>
           ))}
           {!subscribeTo?.length && <p className="text-red-500">No Subscription Yet...</p>}
           <hr className="mb-4"></hr>
