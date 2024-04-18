@@ -5,7 +5,7 @@ import { useAccount } from "wagmi";
 import { CopyString } from "~~/components/nillion/CopyString";
 import { NillionOnboarding } from "~~/components/nillion/NillionOnboarding";
 import RetrieveSecretCommand from "~~/components/nillion/RetrieveSecretCommand";
-import SecretForm from "~~/components/nillion/SecretForm";
+import SecretForm from "./_components/SecretForm";
 import { Address } from "~~/components/scaffold-eth";
 import { getUserKeyFromSnap } from "~~/utils/nillion/getUserKeyFromSnap";
 import { retrieveSecretBlob } from "~~/utils/nillion/retrieveSecretBlob";
@@ -202,27 +202,9 @@ const Email = ({ params }: { params: { SecretName: string } }) => {
                           onSubmit={handleSecretFormSubmit}
                           secretType="text"
                           isLoading={false}
+                          permissionedUserId={profile?.userID || ""}
                         />
                       )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Retrieve secret blob */}
-
-                <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center w-full rounded-3xl my-2 justify-between mx-5">
-                  <h1 className="text-xl">Retrieve and decode SecretBlob from Nillion</h1>
-                  <div className="flex flex-row w-full justify-between items-center my-10 mx-10">
-                    <div className="flex-1 px-2" key={params.SecretName}>
-                      <button
-                        className="btn btn-sm btn-primary mt-4"
-                        onClick={() => handleRetrieveSecretBlob(storeId || "", params.SecretName)}
-                        disabled={!storeId}
-                      >
-                        Retrieve and decode {params.SecretName}
-                      </button>
-
-                      {retrievedValue && <p>✅ Retrieved value: {retrievedValue}</p>}
                     </div>
                   </div>
                 </div>
