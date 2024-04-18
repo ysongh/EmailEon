@@ -50,7 +50,7 @@ const Email = ({ params }: { params: { SecretName: string } }) => {
   const { data: profile } = useScaffoldContractRead({
     contractName: "EmailEon",
     functionName: "getProfile",
-    args: [connectedAddress],
+    args: [params.SecretName],
   });
 
   const { writeAsync: addEmail} = useScaffoldContractWrite({
