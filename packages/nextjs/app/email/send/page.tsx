@@ -57,7 +57,6 @@ const EmailForm = () => {
       setLoading(true);
 
       const newEmail = await retrieveSecretBlob(nillionClient, emails[0].storeId, emails[0].secretName);
-
       const response = await fetch('/api/email/send', {
         method: 'POST',
         body: JSON.stringify({ 

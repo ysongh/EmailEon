@@ -7,15 +7,18 @@ import { useAccount } from "wagmi";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 import { retrieveSecretBlob } from "~~/utils/nillion/retrieveSecretBlob";
 import { nillionConfig } from "~~/utils/nillion/nillionConfig";
+import { CopyString } from "~~/components/nillion/CopyString";
+import { getUserKeyFromSnap } from "~~/utils/nillion/getUserKeyFromSnap";
 
 const Dashboard: NextPage = () => {
-  const { address } = useAccount();
+  const { address: connectedAddress } = useAccount();
 
   const [userKey, setUserKey] = useState<string | null>(null);
   const [nillion, setNillion] = useState<any>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [nillionClient, setNillionClient] = useState<any>(null);
   const [retrievedValue, setRetrievedValue] = useState<string | null>(null);
+  const [connectedToSnap, setConnectedToSnap] = useState<boolean>(false);
 
   useEffect(() => {
     if (userKey) {
@@ -36,22 +39,28 @@ const Dashboard: NextPage = () => {
     }
   }, [userKey]);
 
+  async function handleConnectToSnap() {
+    const snapResponse = await getUserKeyFromSnap();
+    setUserKey(snapResponse?.user_key || null);
+    setConnectedToSnap(snapResponse?.connectedToSnap || false);
+  }
+
   const { data: emails } = useScaffoldContractRead({
     contractName: "EmailEon",
     functionName: "getEmails",
-    args: [address],
+    args: [connectedAddress],
   });
 
   const { data: subscribeTo } = useScaffoldContractRead({
     contractName: "EmailEon",
     functionName: "getSubscribeTo",
-    args: [address],
+    args: [connectedAddress],
   });
 
   const { data: hasProfile } = useScaffoldContractRead({
     contractName: "EmailEon",
     functionName: "getHasProfile",
-    args: [address],
+    args: [connectedAddress],
   });
 
   async function handleRetrieveSecretBlob(store_id: string, secret_name: string) {
@@ -80,8 +89,27 @@ const Dashboard: NextPage = () => {
         <header className="bg-white shadow">
           <div className="container mx-auto py-4 px-4">Dashboard</div>
         </header>
-        <main className="container mx-auto py-6 px-4">
-          <h2 className="text-2xl">Subscriptions</h2>
+        <main className="container mx-auto py-2 px-4">
+          {!connectedAddress && <p>Connect your MetaMask Flask wallet</p>}
+          {connectedAddress && connectedToSnap && !userKey && (
+            <a target="_blank" href="https://nillion-snap-site.vercel.app/" rel="noopener noreferrer">
+              <button className="btn btn-sm btn-primary mt-4">
+                No Nillion User Key - Generate and store user key here
+              </button>
+            </a>
+          )}
+          {connectedAddress && !connectedToSnap && (
+            <button className="btn btn-sm btn-primary mt-4" onClick={handleConnectToSnap}>
+              Connect to Snap with your Nillion User Key
+            </button>
+          )}
+          {userId && (
+            <div className="flex items-center space-x-2">
+              <p className="my-2 font-medium">Connected as Nillion User ID:</p>
+              <CopyString str={userId} />
+            </div>
+          )}
+          <h2 className="text-2xl mt-5">Subscriptions</h2>
           {subscribeTo?.map((s, index) => (
             <p key={index}>
               {s.email} {s.storeId} <button onClick={() => handledDeleteSecrets(s.storeId)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
