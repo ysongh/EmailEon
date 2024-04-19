@@ -65,9 +65,6 @@ const Dashboard: NextPage = () => {
           <Link href={`/email/send`} className="text-gray-300 hover:text-white mb-3">
             Send Email
           </Link>
-          <Link href={`/email/${address}`} className="text-gray-300 hover:text-white mb-3">
-            Collect Email
-          </Link>
           <Link href="/profile" className="text-gray-300 hover:text-white">
             Profile
           </Link>
@@ -86,6 +83,9 @@ const Dashboard: NextPage = () => {
           <hr className="mb-4"></hr>
           {hasProfile ? (
             <div>
+              <Link href={`/email/${address}`} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Collect Email
+              </Link>
               <p>{emails?.length} subscribers</p>
               {emails?.map((e, index) => (
                 <p key={index}>{e.secretName} {e.storeId}</p>
