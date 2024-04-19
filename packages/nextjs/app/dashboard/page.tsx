@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 import { retrieveSecretBlob } from "~~/utils/nillion/retrieveSecretBlob";
+import { nillionConfig } from "~~/utils/nillion/nillionConfig";
 
 const Dashboard: NextPage = () => {
   const { address } = useAccount();
@@ -57,6 +58,11 @@ const Dashboard: NextPage = () => {
     await retrieveSecretBlob(nillionClient, store_id, secret_name).then(setRetrievedValue);
   }
 
+  async function handledDeleteSecrets(store_id: string) {
+    console.log(nillionClient);
+    await nillionClient.delete_secrets(nillionConfig.cluster_id, store_id);
+  }
+
   return (
     <div className="flex h-screen bg-gray-100">
       <div className="w-64 bg-gray-800 h-full text-white p-4">
@@ -77,7 +83,11 @@ const Dashboard: NextPage = () => {
         <main className="container mx-auto py-6 px-4">
           <h2 className="text-2xl">Subscriptions</h2>
           {subscribeTo?.map((s, index) => (
-            <p key={index}>{s.email} {s.storeId}</p>
+            <p key={index}>
+              {s.email} {s.storeId} <button onClick={() => handledDeleteSecrets(s.storeId)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Delete
+              </button>
+            </p>
           ))}
           {!subscribeTo?.length && <p className="text-red-500">No Subscription Yet...</p>}
           <hr className="mb-4"></hr>
