@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/EmailEon.sol": {
+      "content": "//SPDX-License-Identifier: MIT\npragma solidity >=0.8.0 <0.9.0;\n\ncontract EmailEon {\n  constructor() {}\n\n  mapping(address => Email[]) public emails;\n  mapping(address => Profile) public profiles;\n  mapping(address => bool) public hasProfile;\n  mapping(address => Subscription[]) public subscribeTo;\n\n  struct Email {\n    string storeId;\n    string secretName;\n  }\n\n  struct Profile {\n    address owner;\n    string email;\n    string userID;\n  }\n\n  struct Subscription {\n    string email;\n    string storeId;\n  }\n\n  function getEmails(address _owner) public view returns (Email[] memory){\n    return emails[_owner];\n  }\n\n  function getHasProfile(address _owner) public view returns (bool){\n    return hasProfile[_owner];\n  }\n  \n  function getProfile(address _owner) public view returns (Profile memory){\n    return profiles[_owner];\n  }\n\n  function getSubscribeTo(address _owner) public view returns (Subscription[] memory){\n    return subscribeTo[_owner];\n  }\n\n  function addEmail(address _owner, string memory _storeId, string memory _secretName) public {\n    emails[_owner].push(Email(_storeId, _secretName));\n    subscribeTo[msg.sender].push(Subscription(profiles[_owner].email, _storeId));\n  }\n\n  function createProfile(string memory _email, string memory _userID) public {\n    profiles[msg.sender] = Profile(msg.sender, _email, _userID);\n    hasProfile[msg.sender] = true;\n  }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
