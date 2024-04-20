@@ -121,7 +121,7 @@ const Dashboard: NextPage = () => {
           <hr className="mb-4"></hr>
           {hasProfile ? (
             <div>
-              <Link href={`/email/${address}`} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              <Link href={`/email/${connectedAddress}`} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 Collect Email
               </Link>
               <p>{emails?.length} subscribers</p>
