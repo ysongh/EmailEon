@@ -23,18 +23,18 @@ export const menuLinks: HeaderMenuLink[] = [
     label: "📩 Dashboard",
     href: "/dashboard",
   },
-  {
-    label: "🖥️ Nillion Blind Computation Demo",
-    href: "/nillion-compute",
-  },
+  // {
+  //   label: "🖥️ Nillion Blind Computation Demo",
+  //   href: "/nillion-compute",
+  // },
   // {
   //   label: "🎯 Nillion Hello World",
   //   href: "/nillion-hello-world",
   // },
-  {
-    label: "✅ Nillion Hello World Demo",
-    href: "/nillion-hello-world-complete",
-  },
+  // {
+  //   label: "✅ Nillion Hello World Demo",
+  //   href: "/nillion-hello-world-complete",
+  // },
   {
     label: "Debug Contracts",
     href: "/debug",
