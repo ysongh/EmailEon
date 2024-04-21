@@ -87,7 +87,9 @@ const Dashboard: NextPage = () => {
       </div>
       <div className="flex-1">
         <header className="bg-white shadow">
-          <div className="container mx-auto py-4 px-4">Dashboard</div>
+          <div className="container mx-auto py-4 px-4">
+            Welcome User
+          </div>
         </header>
         <main className="container mx-auto py-2 px-4">
           {!connectedAddress && <p>Connect your MetaMask Flask wallet</p>}

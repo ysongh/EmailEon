@@ -1,6 +1,7 @@
-# 🏗 Scaffold-Nillion
+# EmailEon
+Decentralized Email Marketing Platform
 
-This template has all the power of the [Scaffold-ETH 2 dapp toolkit](https://github.com/scaffold-eth/scaffold-eth-2) with a Nillion integration so that you can store, retrieve, and run blind computation on secrets stored in Nillion.
+Used Nillion SDK for encrypting email addresses with access control limited to the company and user.
 
 ## Requirements
 
