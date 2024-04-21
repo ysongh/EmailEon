@@ -177,23 +177,16 @@ const Email = ({ params }: { params: { SecretName: string } }) => {
             ) : (
               <div className="flex flex-row justify-between">
                 {/* Store secret blob */}
-                <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center w-full rounded-3xl my-2 justify-between mx-5">
-                  <h1 className="text-xl">Store email as a SecretBlob in Nillion</h1>
-                  <div className="flex flex-row w-full justify-between items-center my-10 mx-10">
+                <div className="flex flex-col bg-base-100 px-10 py-10 items-center w-full rounded-3xl my-2 justify-between mx-5">
+                  <div className="flex flex-row w-full justify-between my-10 mx-10">
                     <div className="flex-1 px-2">
                       {!!storeId ? (
                         <>
-                          <RetrieveSecretCommand
-                            secretType="SecretBlob"
-                            userKey={userKey}
-                            storeId={storeId}
-                            secretName={params.SecretName}
-                          />
-                          <button className="btn btn-sm btn-primary mt-4" onClick={resetForm}>
-                            Reset
-                          </button>
-                          <button className="btn btn-sm btn-primary mt-4" onClick={() => addEmail()}>
-                            Add
+                          <p>Store ID: {storeId}</p>
+                          <button
+                            className={`mt-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 }`}
+                            onClick={() => addEmail()}>
+                            Confirm and Save On-Chain
                           </button>
                         </>
                       ) : (

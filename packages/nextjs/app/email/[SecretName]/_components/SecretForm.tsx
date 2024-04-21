@@ -54,8 +54,8 @@ const SecretForm: React.FC<SecretFormProps> = ({
   ) : (
     <form onSubmit={handleSubmit} className={isDisabled ? "opacity-50" : ""}>
       <div>
-        <label htmlFor="secret" className="block text-sm font-medium text-gray-700">
-          Add Email
+        <label htmlFor="secret" className="block text-md font-medium text-gray-700">
+          Add Mailchain Email Address
         </label>
         <input
           type={secretType} // Use the prop here
@@ -68,6 +68,9 @@ const SecretForm: React.FC<SecretFormProps> = ({
             isDisabled ? "cursor-not-allowed bg-gray-100" : "bg-white"
           }`}
         />
+        <p className="text-sm text-gray-500">
+          * Email address is store as a SecretBlob in Nillion
+        </p>
       </div>
 
       {/* can only compute on secret integers - don't show for SecretBlobs */}
@@ -89,7 +92,7 @@ const SecretForm: React.FC<SecretFormProps> = ({
         </div>
       )}
 
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <label htmlFor="permissionedUserIdForRetrieveSecret" className="block text-sm font-medium text-gray-700">
           Optional: Set a user id to grant retrieve permissions to another user
         </label>
@@ -135,7 +138,7 @@ const SecretForm: React.FC<SecretFormProps> = ({
             isDisabled ? "cursor-not-allowed bg-gray-100" : "bg-white"
           }`}
         />
-      </div>
+      </div> */}
 
       <button
         type="submit"
