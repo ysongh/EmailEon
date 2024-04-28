@@ -31,7 +31,7 @@ const config: HardhatUserConfig = {
     },
   },
   // defaultNetwork: "localhost",
-  defaultNetwork: "arbitrumSepolia",
+  defaultNetwork: "lineaSepolia",
   namedAccounts: {
     deployer: {
       // By default, it will take the first Hardhat account as the deployer
@@ -129,6 +129,10 @@ const config: HardhatUserConfig = {
     },
     morphTestnet: {
       url: "https://rpc-testnet.morphl2.io",
+      accounts: [deployerPrivateKey],
+    },
+    lineaSepolia: {
+      url: "https://rpc.sepolia.linea.build",
       accounts: [deployerPrivateKey],
     },
   },
