@@ -25,20 +25,29 @@ const Home: NextPage = () => {
           <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
               <GlobeAmericasIcon className="h-8 w-8 fill-secondary" />
-              <p>
+              <p className="text-xl">
                 Decentralized
+              </p>
+              <p className="mt-0 text-gray-500">
+                Each email address is encrypted and can only be access between two parties
               </p>
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
               <UserMinusIcon className="h-8 w-8 fill-secondary" />
-              <p>
+              <p className="text-xl">
                 No Middle Man
+              </p>
+              <p className="mt-0 text-gray-500">
+                EmailEon does not access your user email address list or the content within
               </p>
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
               <CircleStackIcon className="h-8 w-8 fill-secondary" />
-              <p>
+              <p className="text-xl">
                 Ownership of data
+              </p>
+              <p className="mt-0 text-gray-500">
+                You retain control of the user email list
               </p>
             </div>
           </div>
