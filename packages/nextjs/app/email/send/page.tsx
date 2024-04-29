@@ -107,7 +107,9 @@ const EmailForm = () => {
           ></textarea>
         </div>
         {!loading
-          ? <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Send Email</button>
+          ? <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-blue:100" disabled={!subject || !message}>
+              Send Email
+            </button>
           : <Spinner />
         }
       </form>
